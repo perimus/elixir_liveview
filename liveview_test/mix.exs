@@ -47,7 +47,10 @@ defmodule LiveviewTest.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:benchee, "~> 1.0", only: :dev}
+      {:faker, "~> 0.16.0"},
+      {:number, "~> 1.0"},
+      {:benchee, "~> 1.0", only: :dev},
+      {:timex, "~> 3.0"}
     ]
   end
 

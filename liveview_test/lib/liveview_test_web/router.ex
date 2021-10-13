@@ -19,6 +19,12 @@ defmodule LiveviewTestWeb.Router do
 
     live "/", PageLive, :index
     live "/light", LightLive
+    live "/license", LicenseLive
+    live "/sales-dashboard", SalesDashboardLive
+    live "/search", SearchLive
+    live "/flight", FlightLive
+    live "/autocomplete", AutoCompleteLive
+    live "/filter", FilterLive
   end
 
   # Other scopes may use custom stacks.
