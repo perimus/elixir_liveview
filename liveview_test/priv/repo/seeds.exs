@@ -11,7 +11,13 @@
 # and so on) as they will fail if something goes wrong.
 alias LiveviewTest.Repo
 alias LiveviewTest.Boats.Boat
+alias LiveviewTest.Stores.Store
+alias LiveviewTest.Flights.Flight
+alias LiveviewTest.GitRepos.GitRepo
+alias LiveviewTest.Servers.Server
+alias LiveviewTest.Donations.Donation
 
+## Boats
 %Boat{
   model: "1760 Retriever Jon Deluxe",
   price: "$",
@@ -155,3 +161,353 @@ alias LiveviewTest.Boats.Boat
   image: "/images/boats/yamaha-275sd.jpg"
 }
 |> Repo.insert!()
+
+## Stores
+%Store{
+  name: "Downtown Helena",
+  street: "312 Montana Avenue",
+  phone_number: "406-555-0100",
+  city: "Helena, MT",
+  zip: "59602",
+  open: true,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "East Helena",
+  street: "227 Miner's Lane",
+  phone_number: "406-555-0120",
+  city: "Helena, MT",
+  zip: "59602",
+  open: false,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "Westside Helena",
+  street: "734 Lake Loop",
+  phone_number: "406-555-0130",
+  city: "Helena, MT",
+  zip: "59602",
+  open: true,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "Downtown Denver",
+  street: "426 Aspen Loop",
+  phone_number: "303-555-0140",
+  city: "Denver, CO",
+  zip: "80204",
+  open: true,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "Midtown Denver",
+  street: "7 Broncos Parkway",
+  phone_number: "720-555-0150",
+  city: "Denver, CO",
+  zip: "80204",
+  open: false,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "Denver Stapleton",
+  street: "965 Summit Peak",
+  phone_number: "303-555-0160",
+  city: "Denver, CO",
+  zip: "80204",
+  open: true,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+%Store{
+  name: "Denver West",
+  street: "501 Mountain Lane",
+  phone_number: "720-555-0170",
+  city: "Denver, CO",
+  zip: "80204",
+  open: true,
+  hours: "8am - 10pm M-F"
+}
+|> Repo.insert!()
+
+## Flights
+%Flight{
+  number: "450",
+  origin: "DEN",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1, hours: 2), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "450",
+  origin: "DEN",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2, hours: 2), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "450",
+  origin: "DEN",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3, hours: 2), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "860",
+  origin: "DFW",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1, hours: 3), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "860",
+  origin: "DFW",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2, hours: 3), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "860",
+  origin: "DFW",
+  destination: "ORD",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3, hours: 3), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "740",
+  origin: "DAB",
+  destination: "DEN",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 1, hours: 4), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "740",
+  origin: "DAB",
+  destination: "DEN",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 2, hours: 4), :second)
+}
+|> Repo.insert!()
+
+%Flight{
+  number: "740",
+  origin: "DAB",
+  destination: "DEN",
+  departure_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3), :second),
+  arrival_time: DateTime.truncate(Timex.shift(Timex.now(), days: 3, hours: 4), :second)
+}
+|> Repo.insert!()
+
+## GitRepos
+%GitRepo{
+  name: "elixir",
+  url: "https://github.com/elixir-lang/elixir",
+  owner_login: "elixir-lang",
+  owner_url: "https://github.com/elixir-lang",
+  fork: false,
+  stars: 16900,
+  language: "elixir",
+  license: "apache"
+}
+|> Repo.insert!()
+
+%GitRepo{
+  name: "phoenix",
+  url: "https://github.com/phoenixframework/phoenix",
+  owner_login: "phoenixframework",
+  owner_url: "https://github.com/phoenixframework",
+  fork: false,
+  stars: 15200,
+  language: "elixir",
+  license: "mit"
+}
+|> Repo.insert!()
+
+%GitRepo{
+  name: "phoenix_live_view",
+  url: "https://github.com/phoenixframework/phoenix_live_view",
+  owner_login: "phoenixframework",
+  owner_url: "https://github.com/phoenixframework",
+  fork: false,
+  stars: 3000,
+  language: "elixir",
+  license: "mit"
+}
+|> Repo.insert!()
+
+%GitRepo{
+  name: "phoenix_live_view",
+  url: "https://github.com/clarkware/phoenix_live_view",
+  owner_login: "clarkware",
+  owner_url: "https://github.com/clarkware",
+  fork: true,
+  stars: 0,
+  language: "elixir",
+  license: "mit"
+}
+|> Repo.insert!()
+
+%GitRepo{
+  name: "rails",
+  url: "https://github.com/rails/rails",
+  owner_login: "rails",
+  owner_url: "https://github.com/rails",
+  fork: false,
+  stars: 45600,
+  language: "ruby",
+  license: "mit"
+}
+|> Repo.insert!()
+
+%GitRepo{
+  name: "ruby",
+  url: "https://github.com/ruby/ruby",
+  owner_login: "ruby",
+  owner_url: "https://github.com/ruby",
+  fork: false,
+  stars: 16800,
+  language: "ruby",
+  license: "bsdl"
+}
+|> Repo.insert!()
+
+## Servers
+%Server{
+  name: "dancing-lizard",
+  status: "up",
+  deploy_count: 14,
+  size: 19.5,
+  framework: "Elixir/Phoenix",
+  git_repo: "https://git.example.com/dancing-lizard.git",
+  last_commit_id: "f3d41f7",
+  last_commit_message: "If this works, I'm going disco    🕺"
+}
+|> Repo.insert!()
+
+%Server{
+  name: "lively-frog",
+  status: "up",
+  deploy_count: 12,
+  size: 24.0,
+  framework: "Elixir/Phoenix",
+  git_repo: "https://git.example.com/lively-frog.git",
+  last_commit_id: "d2eba26",
+  last_commit_message: "Does it scale? 🤔"
+}
+|> Repo.insert!()
+
+%Server{
+  name: "curious-raven",
+  status: "up",
+  deploy_count: 21,
+  size: 17.25,
+  framework: "Ruby/Rails",
+  git_repo: "https://git.example.com/curious-raven.git",
+  last_commit_id: "a3708f1",
+  last_commit_message: "Fixed a bug! 🐞"
+}
+|> Repo.insert!()
+
+%Server{
+  name: "cryptic-owl",
+  status: "down",
+  deploy_count: 2,
+  size: 5.0,
+  framework: "Elixir/Phoenix",
+  git_repo: "https://git.example.com/cryptic-owl.git",
+  last_commit_id: "c497e91",
+  last_commit_message: "First big launch! 🤞"
+}
+|> Repo.insert!()
+
+## Donations
+donation_items = [
+  {"☕️", "Coffee"},
+  {"🥛", "Milk"},
+  {"🥩", "Beef"},
+  {"🍗", "Chicken"},
+  {"🍖", "Pork"},
+  {"🍗", "Turkey"},
+  {"🥔", "Potatoes"},
+  {"🥣", "Cereal"},
+  {"🥣", "Oatmeal"},
+  {"🥚", "Eggs"},
+  {"🥓", "Bacon"},
+  {"🧀", "Cheese"},
+  {"🥬", "Lettuce"},
+  {"🥒", "Cucumber"},
+  {"🐠", "Smoked Salmon"},
+  {"🐟", "Tuna"},
+  {"🐡", "Halibut"},
+  {"🥦", "Broccoli"},
+  {"🧅", "Onions"},
+  {"🍊", "Oranges"},
+  {"🍯", "Honey"},
+  {"🍞", "Sourdough Bread"},
+  {"🥖", "French Bread"},
+  {"🍐", "Pear"},
+  {"🥜", "Nuts"},
+  {"🍎", "Apples"},
+  {"🥥", "Coconut"},
+  {"🧈", "Butter"},
+  {"🧀", "Mozzarella"},
+  {"🍅", "Tomatoes"},
+  {"🍄", "Mushrooms"},
+  {"🍚", "Rice"},
+  {"🍜", "Pasta"},
+  {"🍌", "Banana"},
+  {"🥕", "Carrots"},
+  {"🍋", "Lemons"},
+  {"🍉", "Watermelons"},
+  {"🍇", "Grapes"},
+  {"🍓", "Strawberries"},
+  {"🍈", "Melons"},
+  {"🍒", "Cherries"},
+  {"🍑", "Peaches"},
+  {"🍍", "Pineapples"},
+  {"🥝", "Kiwis"},
+  {"🍆", "Eggplants"},
+  {"🥑", "Avocados"},
+  {"🌶", "Peppers"},
+  {"🌽", "Corn"},
+  {"🍠", "Sweet Potatoes"},
+  {"🥯", "Bagels"},
+  {"🥫", "Soup"},
+  {"🍪", "Cookies"}
+]
+
+for _i <- 1..100 do
+  {emoji, item} = Enum.random(donation_items)
+
+  %Donation{
+    emoji: emoji,
+    item: item,
+    quantity: Enum.random(1..20),
+    days_until_expires: Enum.random(1..30)
+  }
+  |> Repo.insert!()
+end

@@ -25,6 +25,9 @@ defmodule LiveviewTestWeb.Router do
     live "/flight", FlightLive
     live "/autocomplete", AutoCompleteLive
     live "/filter", FilterLive
+    live "/git-projects", GitProjectsLive
+    live "/servers", ServersLive
+    live "/paginate", PaginateLive
   end
 
   # Other scopes may use custom stacks.

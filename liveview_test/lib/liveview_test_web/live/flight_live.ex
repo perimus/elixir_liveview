@@ -10,11 +10,12 @@ defmodule LiveviewTestWeb.FlightLive do
         socket,
         number: "",
         airport: "",
-        flights: [],
+        flights: Flights.list_flights(),
         matches: [],
         loading: false
-        )
-    {:ok, socket}
+      )
+
+    {:ok, socket, temporary_assigns: [flights: []]}
   end
 
   def render(assigns) do
@@ -130,6 +131,7 @@ defmodule LiveviewTestWeb.FlightLive do
         socket,
         matches: Airports.suggest(prefix)
       )
+
     {:noreply, socket}
   end
 
@@ -140,14 +142,16 @@ defmodule LiveviewTestWeb.FlightLive do
           socket
           |> put_flash(:info, "No flights found for \"#{number}\"")
           |> assign(flights: [], loading: false)
-      {:noreply, socket}
+
+        {:noreply, socket}
 
       flights ->
         socket =
           socket
           |> clear_flash()
           |> assign(flights: flights, loading: false)
-      {:noreply, socket}
+
+        {:noreply, socket}
     end
   end
 
@@ -158,14 +162,16 @@ defmodule LiveviewTestWeb.FlightLive do
           socket
           |> put_flash(:info, "No flights found for \"#{airport}\"")
           |> assign(flights: [], loading: false)
-      {:noreply, socket}
+
+        {:noreply, socket}
 
       flights ->
         socket =
           socket
           |> clear_flash()
           |> assign(flights: flights, loading: false)
-      {:noreply, socket}
+
+        {:noreply, socket}
     end
   end
 

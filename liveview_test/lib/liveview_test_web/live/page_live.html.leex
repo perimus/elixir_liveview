@@ -46,3 +46,37 @@
     </ul>
   </article>
 </section>
+ <ul class="examples">
+      <li>
+        <%= live_redirect "Light",
+            to: Routes.live_path(@socket, LiveviewTestWeb.LightLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Team License",
+            to: Routes.live_path(@socket, LiveviewTestWeb.LicenseLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Sales Dashboard",
+          to: Routes.live_path(@socket, LiveviewTestWeb.SalesDashboardLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Search",
+          to: Routes.live_path(@socket, LiveviewTestWeb.SearchLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Autocomplete",
+          to: Routes.live_path(@socket, LiveviewTestWeb.AutoCompleteLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Flight",
+          to: Routes.live_path(@socket, LiveviewTestWeb.FlightLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Filter",
+          to: Routes.live_path(@socket, LiveviewTestWeb.FilterLive) %>
+      </li>
+      <li>
+        <%= live_redirect "Servers",
+          to: Routes.live_path(@socket, LiveviewTestWeb.ServersLive) %>
+      </li>
+    </ul>

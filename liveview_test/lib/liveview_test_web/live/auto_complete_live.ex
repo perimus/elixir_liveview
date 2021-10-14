@@ -10,7 +10,7 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
         socket,
         zip: "",
         city: "",
-        stores: [],
+        stores: Stores.list_stores(),
         matches: [],
         loading: false
       )
@@ -111,6 +111,7 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
         stores: [],
         loading: true
       )
+
     {:noreply, socket}
   end
 
@@ -124,9 +125,9 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
         stores: [],
         loading: true
       )
+
     {:noreply, socket}
   end
-
 
   def handle_event("suggest-city", %{"city" => prefix}, socket) do
     socket = assign(socket, matches: Cities.suggest(prefix))
@@ -134,6 +135,8 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
   end
 
   def handle_info({:run_zip_search, zip}, socket) do
+    IO.inspect(Stores.search_by_zip(zip))
+
     case Stores.search_by_zip(zip) do
       [] ->
         socket =
@@ -143,11 +146,11 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
 
         {:noreply, socket}
 
-        stores ->
-          socket =
-            socket
-            |> clear_flash()
-            |> assign(stores: stores, loading: false)
+      stores ->
+        socket =
+          socket
+          |> clear_flash()
+          |> assign(stores: stores, loading: false)
 
         {:noreply, socket}
     end
@@ -163,11 +166,11 @@ defmodule LiveviewTestWeb.AutoCompleteLive do
 
         {:noreply, socket}
 
-        stores ->
-          socket =
-            socket
-            |> clear_flash()
-            |> assign(stores: stores, loading: false)
+      stores ->
+        socket =
+          socket
+          |> clear_flash()
+          |> assign(stores: stores, loading: false)
 
         {:noreply, socket}
     end

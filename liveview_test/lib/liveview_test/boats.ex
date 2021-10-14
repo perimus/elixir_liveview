@@ -21,6 +21,12 @@ defmodule LiveviewTest.Boats do
     Repo.all(Boat)
   end
 
+  def list_boats(criteria) when is_map(criteria) do
+    criteria
+    |> Map.to_list()
+    |> list_boats()
+  end
+
   def list_boats(criteria) when is_list(criteria) do
     query = from(b in Boat)
 
@@ -39,6 +45,25 @@ defmodule LiveviewTest.Boats do
     end)
     |> Repo.all()
   end
+
+  def list_types do
+    from(
+      boat in Boat,
+      select: boat.type,
+      distinct: true
+    )
+    |> Repo.all()
+  end
+
+  def list_prices do
+    from(
+      boat in Boat,
+      select: boat.price,
+      distinct: true
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single boat.
 
