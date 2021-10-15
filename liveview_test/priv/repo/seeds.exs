@@ -16,6 +16,7 @@ alias LiveviewTest.Flights.Flight
 alias LiveviewTest.GitRepos.GitRepo
 alias LiveviewTest.Servers.Server
 alias LiveviewTest.Donations.Donation
+alias LiveviewTest.Vehicles.Vehicle
 
 ## Boats
 %Boat{
@@ -508,6 +509,16 @@ for _i <- 1..100 do
     item: item,
     quantity: Enum.random(1..20),
     days_until_expires: Enum.random(1..30)
+  }
+  |> Repo.insert!()
+end
+
+## Vehicles
+for _i <- 1..1000 do
+  %Vehicle{
+    make: Faker.Vehicle.make(),
+    model: Faker.Vehicle.model(),
+    color: Faker.Color.name()
   }
   |> Repo.insert!()
 end

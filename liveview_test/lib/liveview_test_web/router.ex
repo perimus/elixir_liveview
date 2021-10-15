@@ -28,6 +28,8 @@ defmodule LiveviewTestWeb.Router do
     live "/git-projects", GitProjectsLive
     live "/servers", ServersLive
     live "/paginate", PaginateLive
+    live "/vehicles", VehiclesLive
+    live "/sort", SortLive
   end
 
   # Other scopes may use custom stacks.
