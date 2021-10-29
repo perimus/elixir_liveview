@@ -19,7 +19,7 @@ defmodule LiveviewTest.Servers.Server do
   def changeset(server, attrs) do
     server
     |> cast(attrs, [:name, :framework, :size, :git_repo, :status])
-    |> validate_required([:name, :framework, :size, :repo])
+    |> validate_required([:name, :framework, :size, :git_repo])
     |> validate_length(:name, min: 2, max: 100)
     |> validate_length(:framework, min: 2, max: 50)
     |> validate_length(:git_repo, min: 2, max: 200)

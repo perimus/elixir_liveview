@@ -36,4 +36,13 @@ defmodule LiveviewTestWeb.VolunteersLive do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
+  def handle_event("validate", %{"volunteer" => params}, socket) do
+    changeset =
+      %Volunteer{}
+      |> Volunteers.change_volunteer(params)
+      |> Map.put(:action, :insert)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
 end
