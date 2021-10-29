@@ -2,18 +2,22 @@ defmodule LiveviewTestWeb.ServersLive do
   use LiveviewTestWeb, :live_view
 
   alias LiveviewTest.Servers
+  alias LiveviewTest.Servers.Server
 
   def mount(_params, _session, socket) do
     servers = Servers.list_servers()
+
+    changeset = Servers.change_server(%Server{})
 
     socket =
       assign(
         socket,
         servers: servers,
-        selected_server: hd(servers)
+        selected_server: hd(servers),
+        changeset: changeset
       )
 
-    {:ok, socket}
+    {:ok, socket, temporary_assigns: [servers: []]}
   end
 
   def handle_params(%{"name" => name}, _url, socket) do
@@ -33,15 +37,75 @@ defmodule LiveviewTestWeb.ServersLive do
     {:noreply, socket}
   end
 
+  # This "handle_params" clause needs to assign socket data
+  # based on whether the action is "new" or not.
+  def handle_params(_params, _url, socket) do
+    if socket.assigns.live_action == :new do
+      # The live_action is "new", so the form is being
+      # displayed. Therefore, assign an empty changeset
+      # for the form. Also don't show the selected
+      # server in the sidebar which would be confusing.
+
+      changeset = Servers.change_server(%Server{})
+
+      socket =
+        assign(socket,
+          selected_server: nil,
+          changeset: changeset
+        )
+
+      {:noreply, socket}
+    else
+      # The live_action is NOT "new", so the form
+      # is NOT being displayed. Therefore, don't assign
+      # an empty changeset. Instead, just select the
+      # first server in list. This previously happened
+      # in "mount", but since "handle_params" is always
+      # invoked after "mount", we decided to select the
+      # default server here instead of in "mount".
+
+      socket =
+        assign(socket,
+          selected_server: hd(socket.assigns.servers)
+        )
+
+      {:noreply, socket}
+    end
+  end
+
+  def handle_event("save", %{"server" => params}, socket) do
+    case Servers.create_server(params) do
+      {:ok, server} ->
+        socket = update(socket, :servers, &[server | &1])
+
+        changeset = Servers.change_server(%Server{})
+
+        socket = assign(socket, changeset: changeset)
+
+        :timer.sleep(500)
+
+        {:noreply, socket}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        socket = assign(socket, changeset: changeset)
+        {:noreply, socket}
+    end
+  end
+
   def render(assigns) do
     ~L"""
     <h1>Servers</h1>
     <div id="servers">
       <div class="sidebar">
         <nav>
+          <div class="add">
+            <%= live_patch "New Server",
+            to: Routes.servers_path(@socket, :new),
+            class: "button" %>
+          </div id="servers" phx-update="prepend">
           <%= for server <- @servers do %>
-            <div>
-              <%= live_patch link_body([server: server]),
+            <div id="server">
+              <%= live_patch link_body(server),
                 to: Routes.live_path(
                     @socket,
                     __MODULE__,
@@ -55,6 +119,48 @@ defmodule LiveviewTestWeb.ServersLive do
       <div class="main">
         <div class="wrapper">
           <div class="card">
+            <%= if @live_action == :new do %>
+              <%= f = form_for @changeset, "#", phx_submit: "save" %>
+                <div class="field">
+                  <label>
+                    Name
+                    <%= text_input f, :name, placeholder: "Name", autocomplete: "off" %>
+                    <%= error_tag f, :name %>
+                  </label>
+
+                </div>
+                <div class="field">
+                  <label>
+                    Framework
+                    <%= text_input f, :framework, placeholder: "Framework", autocomplete: "off" %>
+                    <%= error_tag f, :framework %>
+                  </label>
+
+                </div>
+                <div class="field">
+                  <label>
+                    Size (MB)
+                    <%= number_input f, :size, placeholder: "10", autocomplete: "off" %>
+                    <%= error_tag f, :size %>
+                  </label>
+
+                </div>
+                <div class="field">
+                  <label>
+                    Git Repo
+                    <%= text_input f, :git_repo, placeholder: "http://example.com", autocomplete: "off" %>
+                    <%= error_tag f, :git_repo %>
+                  </label>
+                </div>
+
+                <%= submit "Submit", phx_disable_with: "Saving..."%>
+
+                <a href="#" class="cancel">
+                  Cancel
+                </a>
+
+              </form>
+            <% else %>
             <div class="header">
               <h2><%= @selected_server.name %></h2>
               <span class="<%= @selected_server.status %>">
@@ -66,7 +172,7 @@ defmodule LiveviewTestWeb.ServersLive do
                 <div class="deploys">
                   <img src="/images/deploy.svg">
                   <span>
-                   <%= @selected_server.deploy_count %> deploys
+                  <%= @selected_server.deploy_count %> deploys
                   </span>
                   <span>
                     <%= @selected_server.size %> MB
@@ -87,6 +193,7 @@ defmodule LiveviewTestWeb.ServersLive do
                   <%= @selected_server.last_commit_message %>
                 </blockquote>
               </div>
+            <% end %>
             </div>
           </div>
         </div>
@@ -95,12 +202,13 @@ defmodule LiveviewTestWeb.ServersLive do
     """
   end
 
-  defp link_body(assigns) do
-    assigns = Enum.into(assigns, %{})
+  defp link_body(server) do
+    assigns = %{name: server.name, status: server.status}
 
     ~L"""
+    <span class="status <%= @status %>"></span>
     <img src="/images/server.svg">
-    <%= @server.name %>
+    <%= @name %>
     """
   end
 end

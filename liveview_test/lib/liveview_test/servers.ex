@@ -18,7 +18,7 @@ defmodule LiveviewTest.Servers do
 
   """
   def list_servers do
-    Repo.all(Server)
+    Repo.all(from(server in Server, order_by: [desc: server.id]))
   end
 
   def get_server_by_name(name) do

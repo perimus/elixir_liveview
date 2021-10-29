@@ -27,6 +27,7 @@ defmodule LiveviewTestWeb.Router do
     live "/filter", FilterLive
     live "/git-projects", GitProjectsLive
     live "/servers", ServersLive
+    live "/servers/new", ServersLive, :new
     live "/paginate", PaginateLive
     live "/vehicles", VehiclesLive
     live "/sort", SortLive
