@@ -92,6 +92,15 @@ defmodule LiveviewTestWeb.ServersLive do
     end
   end
 
+  def handle_event("validate", %{"server" => params}, socket) do
+    changeset =
+      %Server{}
+      |> Servers.change_server(params)
+      |> Map.put(:action, :insert)
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
   def render(assigns) do
     ~L"""
     <h1>Servers</h1>
@@ -120,11 +129,13 @@ defmodule LiveviewTestWeb.ServersLive do
         <div class="wrapper">
           <div class="card">
             <%= if @live_action == :new do %>
-              <%= f = form_for @changeset, "#", phx_submit: "save" %>
+              <%= f = form_for @changeset, "#",
+              phx_submit: "save",
+              phx_change: "validate" %>
                 <div class="field">
                   <label>
                     Name
-                    <%= text_input f, :name, placeholder: "Name", autocomplete: "off" %>
+                    <%= text_input f, :name, placeholder: "Name", autocomplete: "off", phx_debounce: "500" %>
                     <%= error_tag f, :name %>
                   </label>
 
@@ -140,7 +151,7 @@ defmodule LiveviewTestWeb.ServersLive do
                 <div class="field">
                   <label>
                     Size (MB)
-                    <%= number_input f, :size, placeholder: "10", autocomplete: "off" %>
+                    <%= number_input f, :size, placeholder: "10", autocomplete: "off", phx_debounce: "blur"%>
                     <%= error_tag f, :size %>
                   </label>
 
