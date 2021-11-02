@@ -32,6 +32,9 @@ defmodule LiveviewTestWeb.Router do
     live "/vehicles", VehiclesLive
     live "/sort", SortLive
     live "/volunteers", VolunteersLive
+    live "/infinite-scroll", InfiniteScrollLive
+    live "/datepicker", DatePickerLive
+    live "/sandbox", SandboxLive
   end
 
   # Other scopes may use custom stacks.

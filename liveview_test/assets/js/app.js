@@ -20,6 +20,8 @@ import { LiveSocket } from "phoenix_live_view";
 import Hooks from "./hooks";
 import Uploaders from "./uploaders";
 
+import flatpickr from "flatpickr";
+
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");

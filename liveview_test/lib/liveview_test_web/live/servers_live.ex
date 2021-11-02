@@ -5,6 +5,8 @@ defmodule LiveviewTestWeb.ServersLive do
   alias LiveviewTest.Servers.Server
 
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Servers.subscribe()
+
     servers = Servers.list_servers()
 
     socket =
@@ -54,8 +56,6 @@ defmodule LiveviewTestWeb.ServersLive do
   def handle_event("save", %{"server" => params}, socket) do
     case Servers.create_server(params) do
       {:ok, server} ->
-        socket = update(socket, :servers, &[server | &1])
-
         socket =
           push_patch(socket,
             to:
@@ -86,13 +86,37 @@ defmodule LiveviewTestWeb.ServersLive do
   def handle_event("toggle-status", %{"id" => id}, socket) do
     server = Servers.get_server!(id)
 
-    {:ok, server} = Servers.toggle_server_status(server)
+    {:ok, _server} = Servers.toggle_server_status(server)
 
-    socket = assign(socket, selected_server: server)
+    {:noreply, socket}
+  end
+
+  def handle_info({:server_created, server}, socket) do
+    {:noreply, update(socket, :servers, &[server | &1])}
+  end
+
+  def handle_info({:event_updated, server}, socket) do
+    socket =
+      if server.id == socket.assigns.selected_server.id do
+        assign(socket, selected_server: server)
+      else
+        socket
+      end
 
     servers = Servers.list_servers()
+    socket = assign(socket, servers: servers)
 
-    {:noreply, assign(socket, servers: servers)}
+    socket =
+      update(socket, :servers, fn servers ->
+        for s <- servers do
+          case s.id == server.id do
+            true -> server
+            _ -> s
+          end
+        end
+      end)
+
+    {:noreply, socket}
   end
 
   def render(assigns) do
@@ -136,7 +160,7 @@ defmodule LiveviewTestWeb.ServersLive do
               </div>
 
               <div class="field">
-                <%= label f, :name. "Size (MB)" %>
+                <%= label f, :size, "Size (MB)" %>
                 <%= number_input f, :size, placeholder: "10", autocomplete: "off", phx_debounce: "blur"%>
                 <%= error_tag f, :size %>
               </div>

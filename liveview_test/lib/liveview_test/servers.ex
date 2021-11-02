@@ -2,11 +2,16 @@ defmodule LiveviewTest.Servers do
   @moduledoc """
   The Servers context.
   """
+  @topic inspect(__MODULE__)
 
   import Ecto.Query, warn: false
   alias LiveviewTest.Repo
 
   alias LiveviewTest.Servers.Server
+
+  def subscribe() do
+    Phoenix.PubSub.subscribe(LiveviewTest.PubSub, @topic)
+  end
 
   @doc """
   Returns the list of servers.
@@ -57,6 +62,7 @@ defmodule LiveviewTest.Servers do
     %Server{}
     |> Server.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:server_created)
   end
 
   @doc """
@@ -75,7 +81,20 @@ defmodule LiveviewTest.Servers do
     server
     |> Server.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:server_updated)
   end
+
+  defp broadcast({:ok, server}, event) do
+    Phoenix.PubSub.broadcast(
+      LiveviewTest.PubSub,
+      @topic,
+      {event, server}
+    )
+
+    {:ok, server}
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
 
   @doc """
   Deletes a server.
