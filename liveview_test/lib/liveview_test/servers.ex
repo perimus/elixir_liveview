@@ -105,4 +105,12 @@ defmodule LiveviewTest.Servers do
   def change_server(%Server{} = server, attrs \\ %{}) do
     Server.changeset(server, attrs)
   end
+
+  def toggle_server_status(%{status: "down"} = server) do
+    update_server(server, %{status: "up"})
+  end
+
+  def toggle_server_status(%{status: "up"} = server) do
+    update_server(server, %{status: "down"})
+  end
 end
